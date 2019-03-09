@@ -4,7 +4,7 @@
 ## 0. 개요
 본 가이드는, 다음 [Link](https://www.skedler.com/blog/machine-learning-amazon-rekognition-elasticsearch/)의 아키텍처를 Node.js, AWS Lamda, Amazon Elasticsearch를 사용해 재구성한 심플 가이드 입니다.
  
-<h3><b>과금이 될수도 있으니 유의하시길 바랍니다. 프리티어 지원내용을 살펴보시기 바랍니다.
+<h3><b>소량의 과금이 될수도 있으니 유의하시길 바랍니다. 프리티어 지원내용을 살펴보시기 바랍니다.
 <br>또한, IAM 계정 활용은 다루지 않으며, 버킷 정책 설정에 대해서도 상세하게 다루지 않으니 보안에 유의하시기 바랍니다.
 <br>반드시 가이드를 따라하신 뒤 바로 삭제하시기 바랍니다.</b></h3>
 
