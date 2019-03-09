@@ -31,7 +31,7 @@
     - 인스턴스 유형 : t2.small.elasticsearch
     - 인스턴스 개수 : 1
 4. 액세스 설정
-    - ***보안을 위해서는 VPC설정, 액세스 정책, Cognito 인증 등을 사용하여야 합니다. 반드시 가이드 이 가이드에서는 Kibana의 편리한 접근을 위하여 퍼블릭 액세스로 설정합니다. 자세한 내용은 [AWS 도큐먼트](https://docs.aws.amazon.com/ko_kr/elasticsearch-service/latest/developerguide/what-is-amazon-elasticsearch-service.html)를 살펴보시길 바랍니다.***
+    - ***보안을 위해서는 VPC설정, 액세스 정책, Cognito 인증 등을 사용하여야 합니다. 이 가이드에서는 Kibana의 편리한 접근을 위하여 퍼블릭 액세스로 설정합니다. 자세한 내용은 [AWS 도큐먼트](https://docs.aws.amazon.com/ko_kr/elasticsearch-service/latest/developerguide/what-is-amazon-elasticsearch-service.html)를 살펴보시길 바랍니다.***
     - 네트워크 구성 : 퍼블릭 액세스
     - 액세스 정책
         - 도메인 액세스 정책 설정 : 도메인에 대한 개방 엑세스
@@ -55,9 +55,10 @@
         2. 조건 : StringEquals
         3. 키 : aws:SourceArn
         4. 값 : 앞서 복사한 S3의 arn 주소
+        5. 조건추가
     5. 권한 추가
 10. S3 콘솔 접속
-11. 버킷 클릭 -> 속성 탭-> 이벤트 -> 세부정보 클릭
+11. 버킷 클릭 -> 속성 탭-> 이벤트 클릭
 12. **알림 추가** 클릭
     1. 이벤트 이름 입력
     2. 이벤트 : 모든 객체 생성 이벤트
@@ -76,16 +77,18 @@
     1. 역할이름 : 임의로 입력
     2. 정책 템플릿 : Elastic 권한, Amazon S3 객체 읽기 전용 권한 선택
 6. 함수 생성
-7. 트리거 추가 목록에서 SQS 트리거 클릭
+7. 실행역할 -> 기존역할 -> IAM 콘솔에서 **<역할이름> 역할을 확인** 하십시오 클릭
+    1. **정책연결** 클릭
+    2. AmazonSQSFullAccess, AmazonRekognitionFullAccess 선택 및 연결
+    3. 람다 콘솔 새로고침
+8. 트리거 추가 목록에서 SQS 트리거 클릭
     1. SQS 대기열 : 생성한 SQS 선택
     2. 배치 크기 : 1
     3. 트리거 활성화 : 체크
     4. 추가
-8. 실행역할 -> 기존역할 -> IAM 콘솔에서 **<역할이름> 역할을 확인** 하십시오 클릭
-    1. **정책연결** 클릭
-    2. AmazonSQSFullAccess, AmazonRekognitionFullAccess 선택 및 연결
+    5. 람다 변경사항 저장
 9. 함수코드 -> 코드 입력 유형 -> .zip 파일 업로드 -> 업로드 -> archive.zip 파일 업로드
-10. 우측 상단의 람다함수 저장 클릭
+10. 람다 변경사항 저장
 11. Lambda 내부 에디터로 코드 수정
     1. elasticsearch.js 파일을 엽니다.
     2. 파일 상단의 다음 코드를 수정하고 저장합니다.
@@ -105,6 +108,7 @@
     let s3_location = `https://s3.ap-northeast-2.amazonaws.com/<이곳에 S3 버킷이름을 넣어주세요>/${filenameKey}`;
     ```
     5. 모두 저장합니다.
+12. 기본설정 -> 제한시간 -> 10초로 설정
 12. 람다함수를 저장합니다.
 
 ### 4. Elasticsearch에 데이터 저장 및 Kibana사용
@@ -115,3 +119,10 @@
 5. 좌측 Discover -> Create Index Pattern -> imagereposittory* 입력
 6. S3에 이미지를 업로드 하면서 Kibana를 통해 데이터가 저장되는 것을 확인할 수 있습니다.
 7. Visualize 탭을 통해 데이터를 시각화 해보셔도 재밌습니다.
+
+### 5. 후기
+
+    가장 애먹었던 점이라면 Amazon Elasticsearch의 Kibana 접속이었습니다.
+    Elasticsearch에 VPC를 설정하게 된다면 (적어도 제가 이해한 한도내에서는) 같은 VPC내의 프록시 서버를 통해 Kibana에 접속해야 합니다.
+    결국 ec2에 nginx로 프록시를 설정해서 Kibana를 띄웟었는데, 가이드에서 프록시 설정까지 다루기는 너무 복잡해질것 같아서 뺐습니다.
+    Amazon Elasticsearch 도큐먼트에 Kibana 설정이 나와있으니 따라해보셔도 좋습니다.
