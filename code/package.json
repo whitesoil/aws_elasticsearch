@@ -1,0 +1,14 @@
+{
+  "name": "Seonny",
+  "version": "1.0.0",
+  "description": "Machine Learning with Rekognition and ElasticSearch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Seon Namkung",
+  "license": "MIT",
+  "dependencies": {
+    "elasticsearch": "^15.4.1"
+  }
+}
