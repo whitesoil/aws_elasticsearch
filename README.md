@@ -116,7 +116,7 @@
 2. 256KB 이하의 이미지를 업로드 합니다.
 3. Elasticsearch 콘솔에 들어갑닙다.
 4. Kibana URL을 클릭합니다.
-5. 좌측 Discover -> Create Index Pattern -> imagereposittory* 입력
+5. 좌측 Discover -> Create Index Pattern -> imagerepository* 입력
 6. S3에 이미지를 업로드 하면서 Kibana를 통해 데이터가 저장되는 것을 확인할 수 있습니다.
 7. Visualize 탭을 통해 데이터를 시각화 해보셔도 재밌습니다.
 
