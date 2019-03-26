@@ -79,7 +79,7 @@
 6. 함수 생성
 7. 실행역할 -> 기존역할 -> IAM 콘솔에서 **<역할이름> 역할을 확인** 하십시오 클릭
     1. **정책연결** 클릭
-    2. AmazonSQSFullAccess, AmazonRekognitionFullAccess 선택 및 연결
+    2. AmazonSQSFullAccess, AmazonRekognitionReadOnlyAccess 선택 및 연결
     3. 람다 콘솔 새로고침
 8. 트리거 추가 목록에서 SQS 트리거 클릭
     1. SQS 대기열 : 생성한 SQS 선택
@@ -93,7 +93,7 @@
     1. elasticsearch.js 파일을 엽니다.
     2. 파일 상단의 다음 코드를 수정하고 저장합니다.
     ```
-    let elasticClient = new ES.Client({  
+    const elasticClient = new ES.Client({  
         host: '***이곳에 Amazon Elasticsearch의 엔드포인트를 입력하세요***',
         log: 'info'
     });
@@ -105,7 +105,7 @@
     Bucket: "<S3 버킷 이름>",
 
     line 52
-    let s3_location = `https://s3.ap-northeast-2.amazonaws.com/<이곳에 S3 버킷이름을 넣어주세요>/${filenameKey}`;
+    const s3_location = `https://s3.ap-northeast-2.amazonaws.com/<이곳에 S3 버킷이름을 넣어주세요>/${filenameKey}`;
     ```
     5. 모두 저장합니다.
 12. 기본설정 -> 제한시간 -> 10초로 설정
